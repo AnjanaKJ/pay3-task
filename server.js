@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoute = require('./routes/userRoutes');
+const profileRoute = require('./routes/profileRoute');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,10 +14,11 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use('/api/users', userRoute);
+app.use('/api/profile', profileRoute);
 
 mongoose.connect('mongodb://127.0.0.1:27017/twitter', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+//  useNewUrlParser: true,
+//  useUnifiedTopology: true,
 })
 .then(() => {
   console.log('Connected to MongoDB');
