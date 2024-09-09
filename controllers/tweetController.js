@@ -114,10 +114,58 @@ const deleteTweet = async (req, res) => {
 };
 
 
+const retweetTweet = async (req, res) => {
+  try {
+    const { tweetId } = req.params;
+    const userId = req.user._id;
+
+    const originalTweet = await Tweet.findOne({tweetId});
+    if (!originalTweet) {
+      return res.status(404).json({ error: 'Tweet not found' });
+    }
+
+    const existingRetweet = await Tweet.findOne({
+      author: userId,
+      originalTweet: originalTweet._id,
+    });
+
+    if (existingRetweet) {
+      return res.status(201).json({ message: 'You have already retweeted this tweet' });
+    }
+
+    const retweetData = {
+      author: userId,
+      originalTweet: originalTweet._id,
+      content: originalTweet.content,
+    };
+
+    if (originalTweet.photo) {
+      retweetData.photo = {
+        data: originalTweet.photo.data,
+        contentType: originalTweet.photo.contentType,
+      };
+    }
+
+    const retweet = new Tweet(retweetData);
+    await retweet.save();
+
+    originalTweet.noOfRetweets += 1;
+    await originalTweet.save();
+
+    res.status(201).json(retweet);
+    console.log(`User ${userId} retweeted tweet ${tweetId} with photo`);
+  } catch (error) {
+    console.error('Error retweeting:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 module.exports = {
   createTweet,
   getAllTweets,
   getTweetsByUser,
   getTweetsByTweetId,
-  deleteTweet
+  deleteTweet,
+  retweetTweet
 };

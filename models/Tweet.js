@@ -8,6 +8,11 @@ const tweetSchema = new Schema(
       type: String,
       default: shortid.generate
     },
+    originalTweet: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Tweet',
+    default: null,
+    },
     content: {
       type: String,
       required: [true, 'Tweet content is required'],
