@@ -6,6 +6,8 @@ const cors = require('cors');
 const userRoute = require('./routes/userRoutes');
 const profileRoute = require('./routes/profileRoute');
 const tweetRoute = require('./routes/tweetRoute');
+const followRoute = require('./routes/followRoute');
+const unfollowRoute = require('./routes/unfollowRoute');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +19,8 @@ app.use(cors());
 app.use('/api/users', userRoute);
 app.use('/api/profile', profileRoute);
 app.use('/api/tweet', tweetRoute);
+app.use('/api/follow', followRoute);
+app.use('/api/unfollow', unfollowRoute);
 
 mongoose.connect('mongodb://127.0.0.1:27017/twitter', {
 //  useNewUrlParser: true,

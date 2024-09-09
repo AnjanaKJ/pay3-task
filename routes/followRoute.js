@@ -1,9 +1,9 @@
 const express = require('express');
 const {authenticateToken} = require('../middlewares/authMiddleware');
-const { getUserProfile } = require('../controllers/profileController');
+const { followUser } = require('../controllers/followController');
 
 const router = express.Router();
 
-router.get('/profile', authenticateToken, getUserProfile);
+router.post('/:userId', authenticateToken, followUser);
 
 module.exports = router;
