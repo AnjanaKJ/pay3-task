@@ -35,10 +35,6 @@ const tweetSchema = new Schema(
     type: Number,
     default: 0,
     },
-    replies: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Tweet',
-    }],
     photo: {
       data: Buffer,
       contentType: String
