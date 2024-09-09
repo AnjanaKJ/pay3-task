@@ -2,7 +2,7 @@ const User = require('../models/User'); // Ensure path is correct// Ensure path 
 
 const getUserProfile = async (req, res) => {
   try {
-    console.log("ghghg",req.user._id)
+    //console.log("ghghg",req.user._id)
     const userId = req.user._id;
     const user = await User.findById(userId);
     if (!user) {
@@ -25,7 +25,6 @@ const getUserProfile = async (req, res) => {
     };
 
     res.status(200).json(userProfile);
-
 
   } catch (error) {
 

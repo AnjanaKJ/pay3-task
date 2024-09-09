@@ -55,6 +55,10 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
+  tweets: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Tweet',
+  }],
   createdAt: {
     type: Date,
     default: Date.now

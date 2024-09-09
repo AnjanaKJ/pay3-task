@@ -9,7 +9,7 @@ const authenticateToken = async (req, res, next) => {
     if (!token) return res.status(401).json({ error: 'Unauthorized: Missing token' });
 
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(decoded);
+    //console.log(decoded);
 
     const userId = decoded.userId;
 
