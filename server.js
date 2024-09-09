@@ -8,6 +8,8 @@ const profileRoute = require('./routes/profileRoute');
 const tweetRoute = require('./routes/tweetRoute');
 const followRoute = require('./routes/followRoute');
 const unfollowRoute = require('./routes/unfollowRoute');
+const likeRoute = require('./routes/likeRoute');
+const unlikeRoute = require('./routes/unlikeRoute');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,6 +23,8 @@ app.use('/api/profile', profileRoute);
 app.use('/api/tweet', tweetRoute);
 app.use('/api/follow', followRoute);
 app.use('/api/unfollow', unfollowRoute);
+app.use('/api/like', likeRoute);
+app.use('/api/unlike', unlikeRoute);
 
 mongoose.connect('mongodb://127.0.0.1:27017/twitter', {
 //  useNewUrlParser: true,
