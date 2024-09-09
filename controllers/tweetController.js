@@ -1,10 +1,18 @@
 const Tweet = require('../models/Tweet');
 const User = require('../models/User');
+const cloudinary = require('cloudinary').v2;
+
+require('dotenv').config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 const createTweet = async (req, res) => {
   try {
-    console.log(req.body)
-    const { content} = req.body;
+    const { content } = req.body;
     const photo = req.file;
     const userId = req.user._id;
 
@@ -18,9 +26,32 @@ const createTweet = async (req, res) => {
     };
 
     if (photo) {
+      console.log("Uploading photo to Cloudinary...");
+
+      const fileName = `${userId}_tweet_${Date.now()}`;
+
+      const uploadResult = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            resource_type: 'image',
+            folder: 'tweet_photos',
+            public_id: fileName,
+            use_filename: true,
+            unique_filename: false,
+          },
+          (error, result) => {
+            if (error) {
+              return reject(new Error('Cloudinary upload failed'));
+            }
+            resolve(result);
+          }
+        );
+        stream.end(photo.buffer);
+      });
+
       tweetData.photo = {
-        data: photo.buffer,
-        contentType: photo.contentType,
+        url: uploadResult.secure_url,
+        public_id: uploadResult.public_id,
       };
     }
 
@@ -32,7 +63,6 @@ const createTweet = async (req, res) => {
     await user.save();
 
     res.status(201).json(tweet);
-    console.log(`Tweet created by user ${userId}`);
   } catch (error) {
     console.error('Error creating tweet:', error);
     res.status(500).json({ error: 'Internal server error' });

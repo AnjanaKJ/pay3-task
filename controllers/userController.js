@@ -2,9 +2,16 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
 
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 const createAccount = async (req, res) => {
   const errors = validationResult(req);
@@ -53,35 +60,45 @@ const uploadProfilePhoto = async (req, res) => {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const userId = req.body.userId;
+    const userId = req.user._id;
 
     if (!userId) {
       return res.status(400).json({ message: 'User ID is required' });
     }
 
-    const file = req.file;
-    const profilePicture = {
-      data: file.buffer,
-      contentType: file.mimetype
-    };
+    const fileName = `${userId}_profile_${Date.now()}`;
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { profilePicture: profilePicture },
-      { new: true }
-    );
+    cloudinary.uploader.upload_stream(
+      {
+        folder: 'profile_photos',
+        public_id: fileName,
+        use_filename: true,
+        unique_filename: false,
+      },
+      async (error, result) => {
+        if (error) {
+          console.error('Error uploading profile photo:', error);
+          return res.status(500).json({ message: 'Server error' });
+        }
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+        const updatedUser = await User.findByIdAndUpdate(
+          userId,
+          { profilePicture: result.secure_url },
+          { new: true }
+        );
 
-    res.status(200).json({
-      message: 'Profile photo uploaded successfully',
-      user: updatedUser
-    });
+        if (!updatedUser) {
+          return res.status(404).json({ message: 'User not found' });
+        }
 
+        res.status(200).json({
+          message: 'Profile photo uploaded successfully',
+          user: updatedUser,
+        });
+      }
+    ).end(req.file.buffer);
   } catch (error) {
-    console.error(error);
+    console.error('Error uploading profile photo:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };

@@ -37,9 +37,13 @@ const tweetSchema = new Schema(
     default: 0,
     },
     photo: {
-      data: Buffer,
-      contentType: String
+    url: {
+      type: String
     },
+    publicId: {
+      type: String
+    }
+  },
     comments: [{
     userId: {
       type: Schema.Types.ObjectId,
