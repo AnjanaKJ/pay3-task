@@ -160,6 +160,36 @@ const retweetTweet = async (req, res) => {
   }
 };
 
+const addComment = async (req, res) => {
+  try {
+    const { tweetId } = req.params;
+    const { comment } = req.body;
+    const userId = req.user._id;
+
+    if (!comment) {
+      return res.status(400).json({ error: 'Comment is required' });
+    }
+
+    const tweet = await Tweet.findOne({tweetId});
+    if (!tweet) {
+      return res.status(404).json({ error: 'Tweet not found' });
+    }
+
+    tweet.comments.push({
+      userId: userId,
+      comment: comment,
+    });
+
+    await tweet.save();
+    res.status(200).json({ message: 'Comment added successfully' });
+
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
 
 module.exports = {
   createTweet,
@@ -167,5 +197,6 @@ module.exports = {
   getTweetsByUser,
   getTweetsByTweetId,
   deleteTweet,
-  retweetTweet
+  retweetTweet,
+  addComment
 };

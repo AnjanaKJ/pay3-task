@@ -6,6 +6,7 @@ const tweetSchema = new Schema(
   {
     tweetId: {
       type: String,
+      unique: true,
       default: shortid.generate
     },
     originalTweet: {
@@ -38,7 +39,22 @@ const tweetSchema = new Schema(
     photo: {
       data: Buffer,
       contentType: String
+    },
+    comments: [{
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    comment: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
     }
+  }],
   },
   {
     timestamps: true,

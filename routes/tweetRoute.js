@@ -8,7 +8,8 @@ const {
   getTweetsByUser,
   getTweetsByTweetId,
   deleteTweet,
-  retweetTweet
+  retweetTweet,
+  addComment
 } = require('../controllers/tweetController');
 
 router.post('/create', authenticateToken,upload.single('photo'), createTweet);
@@ -17,5 +18,6 @@ router.get('/user/:userId', getTweetsByUser);
 router.get('/tweetId/:tweetId', getTweetsByTweetId);
 router.delete('/tweets/:tweetId', authenticateToken, deleteTweet);
 router.get('/:tweetId/retweet', authenticateToken, retweetTweet);
+router.post('/comment/:tweetId', authenticateToken, addComment);
 
 module.exports = router;
