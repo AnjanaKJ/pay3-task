@@ -4,6 +4,6 @@ const { unlikeTweet } = require('../controllers/likeAndUnlikeController');
 
 const router = express.Router();
 
-router.get('/:tweetId', authenticateToken, unlikeTweet );
+router.delete('/:tweetId', authenticateToken, unlikeTweet );
 
 module.exports = router;

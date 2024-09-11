@@ -44,7 +44,7 @@ const createAccount = async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({ message: 'User created successfully', user: newUser });
+    res.status(201).json({ message: 'User created successfully'});
 
   } catch (error) {
     console.error(error);
@@ -92,9 +92,7 @@ const uploadProfilePhoto = async (req, res) => {
         }
 
         res.status(200).json({
-          message: 'Profile photo uploaded successfully',
-          user: updatedUser,
-        });
+          message: 'Profile photo uploaded successfully' });
       }
     ).end(req.file.buffer);
   } catch (error) {

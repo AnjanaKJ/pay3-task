@@ -50,8 +50,7 @@ const createTweet = async (req, res) => {
       });
 
       tweetData.photo = {
-        url: uploadResult.secure_url,
-        public_id: uploadResult.public_id,
+        url: uploadResult.secure_url
       };
     }
 
@@ -62,7 +61,7 @@ const createTweet = async (req, res) => {
     user.tweets.push(tweet._id);
     await user.save();
 
-    res.status(201).json(tweet);
+    res.status(201).json({message:"Tweet created successfully"});
   } catch (error) {
     console.error('Error creating tweet:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -171,8 +170,7 @@ const retweetTweet = async (req, res) => {
 
     if (originalTweet.photo) {
       retweetData.photo = {
-        data: originalTweet.photo.data,
-        contentType: originalTweet.photo.contentType,
+        url: originalTweet.photo.url,
       };
     }
 

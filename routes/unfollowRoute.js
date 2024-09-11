@@ -4,6 +4,6 @@ const { unfollowUser } = require('../controllers/unfollowController');
 
 const router = express.Router();
 
-router.post('/:userId', authenticateToken, unfollowUser);
+router.delete('/:userId', authenticateToken, unfollowUser);
 
 module.exports = router;

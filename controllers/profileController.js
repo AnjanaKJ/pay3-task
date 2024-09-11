@@ -18,10 +18,7 @@ const getUserProfile = async (req, res) => {
       dateOfBirth: user.dateOfBirth,
       bio: user.bio,
       location: user.location,
-      profilePicture: user.profilePicture && user.profilePicture.data ? {
-        contentType: user.profilePicture.contentType,
-        data: user.profilePicture.data.toString('base64')
-      } : null
+      profilePicture: user.profilePicture
     };
 
     res.status(200).json(userProfile);

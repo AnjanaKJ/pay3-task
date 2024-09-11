@@ -39,9 +39,6 @@ const tweetSchema = new Schema(
     photo: {
     url: {
       type: String
-    },
-    publicId: {
-      type: String
     }
   },
     comments: [{

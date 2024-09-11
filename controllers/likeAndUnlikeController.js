@@ -20,7 +20,6 @@ const likeTweet = async (req, res) => {
 
 
     res.status(200).json({ message: 'Liked successfully' });
-    console.log(`User ${userId} followed user ${userIdToFollow}`);
   } catch (error) {
     console.error('Error liking tweet:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -42,7 +41,6 @@ const unlikeTweet = async (req, res) => {
 
 
     res.status(200).json({ message: 'Unliked successfully' });
-    console.log(`User ${userId} followed user ${userIdToFollow}`);
   } catch (error) {
     console.error('Error unliking tweet:', error);
     res.status(500).json({ error: 'Internal server error' });

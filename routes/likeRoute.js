@@ -4,6 +4,6 @@ const { likeTweet } = require('../controllers/likeAndUnlikeController');
 
 const router = express.Router();
 
-router.get('/:tweetId', authenticateToken, likeTweet );
+router.post('/:tweetId', authenticateToken, likeTweet );
 
 module.exports = router;
