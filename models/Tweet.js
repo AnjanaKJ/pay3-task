@@ -33,12 +33,12 @@ const tweetSchema = new Schema(
       ref: 'User',
     }],
     noOfRetweets: {
-    type: Number,
-    default: 0,
+      type: Number,
+      default: 0,
     },
     photo: {
-    url: {
-      type: String
+      url: {
+        type: String
     }
   },
     comments: [{

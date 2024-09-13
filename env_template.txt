@@ -1,0 +1,5 @@
+MONGODB_URL = '' (if running locally mongodb://127.0.0.1:27017/twitter)
+JWT_SECRET = ''
+CLOUD_NAME=''
+API_KEY=''
+API_SECRET=''

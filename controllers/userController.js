@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const emailvalidator = require("email-validator");
 const cloudinary = require('cloudinary').v2;
 
 require('dotenv').config();
@@ -14,13 +15,11 @@ cloudinary.config({
 });
 
 const createAccount = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
 
   const { username, name, email, phoneNumber, password, dateOfBirth, bio,  location } = req.body;
-
+  if (!emailvalidator.validate(email)) {
+        return res.status(400).json({ error: 'Invalid email address' });
+  }
   try {
     const existingUser = await User.findOne({
       $or: [{ username }, { email }, { phoneNumber }]
@@ -118,7 +117,7 @@ async function loginUser(req, res) {
         return res.status(401).json({ error: 'Invalid login credentials' });
       }
 
-      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '3d' });
       res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
