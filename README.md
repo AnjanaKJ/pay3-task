@@ -22,6 +22,7 @@ A backend project that mimics key functionalities of Twitter, built using Node.j
 1. Clone the repository:
     ```bash
     git clone https://github.com/AnjanaKJ/pay3-task.git
+    cd pay3-task
     ```
 
 2. Install dependencies:
