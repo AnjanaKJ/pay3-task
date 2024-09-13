@@ -33,7 +33,7 @@ A backend project that mimics key functionalities of Twitter, built using Node.j
 
 4. Make sure MongoDB is installed and running locally or provide a cloud-based MongoDB URI.
 
-5. Set up your Cloudinary account. See [Cloudinary Configuration](#cloudinary-configuration).
+5. Set up your Cloudinary account.
 
 ## Running the Project
 
