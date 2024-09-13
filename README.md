@@ -29,7 +29,7 @@ A backend project that mimics key functionalities of Twitter, built using Node.j
     npm install
     ```
 
-3. Set up environment variables by creating a `.env` file in the root directory. See [Environment Variables](#environment-variables) for required keys.
+3. Set up environment variables by creating a `.env` file in the root directory. See env_template file for required keys.
 
 4. Make sure MongoDB is installed and running locally or provide a cloud-based MongoDB URI.
 
